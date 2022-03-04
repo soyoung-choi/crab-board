@@ -14,6 +14,16 @@ const routes = [
 		name: 'post',
 		component: () => import('@/views/post.vue'),
 	},
+	{
+		path: '/login',
+		name: 'login',
+		component: () => import('@/views/login.vue'),
+	},
+	{
+		path: '/signup',
+		name: 'signup',
+		component: () => import('@/views/signup.vue'),
+	},
 ]
 
 const router = new VueRouter({
