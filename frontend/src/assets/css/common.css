@@ -1,0 +1,175 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, 'dotum’,’돋움', BlinkMacSystemFont, 'Apple SD Gothic Neo', Pretendard, Roboto, 'Noto Sans KR', 'Segoe UI', 'Malgun Gothic', sans-serif;
+  word-break: keep-all;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+li {
+  list-style: none;
+}
+
+.round {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.title-wrap {
+  padding-bottom: 30px;
+}
+
+.title-wrap .title {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 12px;
+  color: #B4BDCA;
+}
+
+input {
+  padding: 15px;
+  border: 1px solid #e5e5e5;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 15px;
+  border-radius: 5px;
+}
+
+input:read-only {
+  background-color: #e7ecf1;
+}
+
+input::placeholder {
+  color: #B1B8C2;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid #3D73FF;
+}
+
+textarea {
+  font-size: 15px;
+  border: 1px solid #e5e5e5;
+  resize: none;
+  width: 100%;
+  padding: 15px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  box-sizing: border-box;
+}
+
+textarea:focus {
+  outline: none;
+  border: 1px solid #3D73FF;
+}
+
+textarea::placeholder {
+  color: #B1B8C2;
+}
+
+section {
+  padding: 50px 0;
+}
+
+.container {
+  width: 1080px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+a.router-link-exact-active {
+  color: #3d73ff;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.pc {
+  display: block;
+}
+
+.mobile {
+  display: none;
+}
+
+.f-left {
+  float: left;
+}
+
+.f-right {
+  float: right;
+}
+
+.division {
+  padding-top: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+hr {
+  border: 1px solid #e5e5e5;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+
+.form-wrap {
+  width: 500px;
+  margin: 0 auto;
+}
+
+.form-item {
+  margin-bottom: 15px;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .pc {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+  }
+
+  .form-wrap {
+    width: 100%;
+  }
+}

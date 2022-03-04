@@ -8,6 +8,16 @@
 	</div>
 </template>
 
+<script>
+import '@/assets/css/common.css'
+import '@/assets/css/color.css'
+import '@/assets/css/button.css'
+import '@/assets/css/element-ui.css'
+import '@/assets/css/icon.css'
+
+export default {}
+</script>
+
 <style>
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;

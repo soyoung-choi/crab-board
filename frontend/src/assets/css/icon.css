@@ -1,0 +1,17 @@
+.icon-large {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+}
+
+.icon-medium {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+}
+
+.icon-small {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+}
