@@ -15,7 +15,10 @@ const postsRouter = require('./routes/posts')
 const { sequelize } = require('./models')
 
 const app = express();
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:8081',
+  credentials: true,
+}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
