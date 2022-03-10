@@ -1,23 +1,40 @@
+'use strict'
+const { Model } = require('sequelize')
+
 module.exports = (sequelize, DataTypes) => {
-  const Post = sequelize.define("Post", {
+  class Post extends Model {
+    static associate(models) {
+      Post.belongsTo(models.User, {
+        foreignKey: 'user_id',
+        as: 'user'
+      })
+    }
+  }
+  Post.init(
+    {
       title: {
-        type: DataTypes.STRING(200)
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
+      contents: {
+        type: DataTypes.STRING(500),
+        allowNull: false,
       },
       image: {
         // 우리는 프론트에서 보내준 이미지를 Blob 타입으로 변환하여 서버에 저장합니다.
         type: DataTypes.BLOB("long"),
-        allowNull: false
       }
     },
     {
       sequelize,
-      underscored: true,
-      charset: "utf8",
-      collate: "utf8_general_ci",
+      modelName: 'Post',
       tableName: 'posts',
-      timestamps: false
+      underscored: true,
+      timestamps: true,
+      charset: 'utf8mb4',
+      collate: 'utf8mb4_general_ci',
     }
-  );
+  )
+  return Post
+}
 
-  return Post;
-};
