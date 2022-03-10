@@ -1,19 +1,28 @@
 <template>
 	<div class="main">
 		<input type="text" v-model="title" placeholder="포스트 제목" />
-		<input type="file" accept=".jpg, .jpeg, .png" @change="onImageChange" />
+		<input type="text" v-model="contents" placeholder="포스트 내용" />
+		<input
+			type="file"
+			accept=".jpg, .jpeg, .png, .gif"
+			@change="onImageChange"
+		/>
 		<button @click.prevent="submitForm">등록</button>
+
+		<img :src="path" />
 	</div>
 </template>
 
 <script>
-import { uploadImage } from '@/api/post'
+import { uploadPost } from '@/api/post'
 
 export default {
 	data() {
 		return {
 			title: '',
+			contents: '',
 			upload_image: '',
+			path: '',
 		}
 	},
 	methods: {
@@ -23,16 +32,21 @@ export default {
 		async submitForm() {
 			const form = new FormData()
 			form.append('title', this.title)
+			form.append('contents', this.contents)
 			form.append('upload_image', this.upload_image)
 
 			for (let key of form.entries()) {
 				console.log(key)
 			}
 
-			await uploadImage(form, {
+			await uploadPost(form, {
 				headers: { 'Content-Type': 'multipart/form-data' },
 			})
 				.then(res => {
+					let buff = new Buffer(res.data.image, 'base64')
+					let text = buff.toString('ascii')
+					this.path = `data:image/png;base64,${text}`
+
 					this.$toasted.show(res.data.message)
 				})
 				.catch(error => {
