@@ -33,13 +33,10 @@ li {
   overflow: hidden;
 }
 
-.title-wrap {
-  padding-bottom: 30px;
-}
-
-.title-wrap .title {
+.title {
   font-size: 32px;
   font-weight: bold;
+  margin-bottom: 30px;
 }
 
 .description {
