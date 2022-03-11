@@ -1,9 +1,11 @@
 <template>
-	<div class="login">
+	<div>
 		<div class="container">
-			<h1 class="title">회원가입</h1>
+			<div class="title-wrap">
+				<h1 class="title">회원가입</h1>
+			</div>
 
-			<form @click.prevent="submitForm">
+			<form>
 				<div class="form-item">
 					<input
 						type="email"
@@ -26,7 +28,9 @@
 					/>
 				</div>
 				<div class="btn-wrap">
-					<button type="submit" class="btn-gra btn-full">회원가입</button>
+					<button @click.prevent="submitForm" class="btn-gra btn-full">
+						회원가입
+					</button>
 				</div>
 			</form>
 		</div>
@@ -67,3 +71,10 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+.signup .container {
+	width: 500px;
+	margin: 0 auto;
+}
+</style>
