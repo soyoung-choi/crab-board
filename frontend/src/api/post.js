@@ -6,6 +6,6 @@ export function fetchPostList() {
 }
 
 // 이미지 업로드
-export function uploadPost(fd) {
+export function createPost(fd) {
 	return instance.post('/posts/upload', fd)
 }

@@ -1,53 +1,52 @@
 <template>
-	<div class="main">
-		<input type="text" v-model="title" placeholder="포스트 제목" />
-		<input type="text" v-model="contents" placeholder="포스트 내용" />
-		<input
-			type="file"
-			accept=".jpg, .jpeg, .png, .gif"
-			@change="onImageChange"
-		/>
-		<button @click.prevent="submitForm">등록</button>
-
-		<img :src="path" />
+	<div class="container">
+		<section class="create-post">
+			<CreatePost />
+		</section>
+		<section class="post-list" v-loading="loading">
+			<ul>
+				<li v-for="item in posts" :key="item._id">
+					<div class="item-text">
+						<h2 class="title">{{ item.title }}</h2>
+						<p class="contents">{{ item.contents }}</p>
+					</div>
+					<div class="item-image">
+						<img :src="`data:image/png;base64,${item.image}`" />
+					</div>
+				</li>
+			</ul>
+		</section>
 	</div>
 </template>
 
 <script>
-import { uploadPost } from '@/api/post'
+import CreatePost from '@/components/create-post'
+import { fetchPostList } from '@/api/post'
 
 export default {
 	data() {
 		return {
-			title: '',
-			contents: '',
-			upload_image: '',
-			path: '',
+			posts: [],
+			loading: true,
 		}
 	},
+	components: {
+		CreatePost,
+	},
+	mounted() {
+		this.fetchPostList()
+	},
 	methods: {
-		onImageChange(e) {
-			this.upload_image = e.target.files[0]
-		},
-		async submitForm() {
-			const form = new FormData()
-			form.append('title', this.title)
-			form.append('contents', this.contents)
-			form.append('upload_image', this.upload_image)
-
-			for (let key of form.entries()) {
-				console.log(key)
-			}
-
-			await uploadPost(form, {
-				headers: { 'Content-Type': 'multipart/form-data' },
-			})
+		async fetchPostList() {
+			await fetchPostList()
 				.then(res => {
-					let buff = new Buffer(res.data.image, 'base64')
-					let text = buff.toString('ascii')
-					this.path = `data:image/png;base64,${text}`
+					this.loading = true
+					const posts = res.data.posts
 
-					this.$toasted.show(res.data.message)
+					this.posts = posts.filter(
+						post => (post.image = Buffer.from(post.image, 'base64'))
+					)
+					this.loading = false
 				})
 				.catch(error => {
 					console.error(error)
@@ -56,3 +55,47 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+.main {
+	overflow: hidden;
+}
+
+.post-list {
+	float: left;
+	width: 48%;
+}
+
+.create-post {
+	float: right;
+	width: 48%;
+}
+
+li {
+	border: 1px solid #eee;
+	padding: 15px;
+	box-sizing: border-box;
+	overflow: hidden;
+	margin-bottom: 20px;
+	border-radius: 10px;
+}
+
+li .item-text {
+	float: left;
+}
+
+li .item-image {
+	float: right;
+	width: 50%;
+}
+
+@media (max-width: 768px) {
+	.post-list {
+		width: 100%;
+	}
+
+	.create-post {
+		width: 100%;
+	}
+}
+</style>

@@ -15,6 +15,7 @@ export default {}
 	padding: 30px 0;
 	box-sizing: border-box;
 	background-color: #222;
+	margin-top: 50px;
 }
 
 #footer p {

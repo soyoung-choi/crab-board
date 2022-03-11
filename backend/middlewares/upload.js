@@ -1,15 +1,23 @@
 const multer = require("multer");
 const path = require('path')
+const fs = require('fs')
+
+// uploads 폴더 없으면 생성
+fs.readdir("uploads", (err) => {
+  if (err) {
+    fs.mkdirSync("uploads");
+  }
+});
 
 // 이미지 받았을 때 필터링
 const imageFilter = (req, file, cb) => {
   if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-    return cb(new Error("Only image files are allowed!"));
+    return cb(new Error("*.jpg, *.jpeg, *.png, *.gif 파일만 업로드가 가능합니다."));
   }
   cb(null, true);
 };
 
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     // 서버에 저장될 위치
     cb(null, 'uploads/');
@@ -20,9 +28,10 @@ var storage = multer.diskStorage({
   }
 });
 
-var uploadFile = multer({ 
+const uploadFile = multer({ 
   storage: storage,
-  fileFilter: imageFilter
+  fileFilter: imageFilter,
+  limits: { fileSize: 1024 * 1024 * 1024, }
 }).single("upload_image");
 
 module.exports = uploadFile;

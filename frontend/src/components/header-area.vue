@@ -20,7 +20,7 @@ export default {}
 
 <style scoped>
 #header {
-	border-bottom: 1px solid #e5e5e5;
+	box-shadow: 10px 10px 10px #f4f4f4;
 	padding: 5px;
 	box-sizing: border-box;
 	overflow: hidden;

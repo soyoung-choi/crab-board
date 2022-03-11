@@ -16,7 +16,7 @@ const { sequelize } = require('./models')
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: 'http://localhost:8081',
   credentials: true,
 }))
 
@@ -26,7 +26,7 @@ app.set('view engine', 'jade');
 
 
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     console.log('데이터베이스 연결 성공')
   })

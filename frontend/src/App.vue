@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
 		<HeaderArea />
-		<router-view />
+		<router-view :class="$route.name" />
 		<FooterArea />
 	</div>
 </template>

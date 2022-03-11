@@ -4,60 +4,51 @@ const { Post } = require('../models')
 const upload = require('../middlewares/upload')
 const fs = require('fs')
 
+// 포스트 목록
+router.get('/', async (req, res, next) => {
+  try {
+    const posts = await Post.findAll({
+      order: [['created_at', 'DESC']]
+    })
+    res.json({
+      posts: posts
+    })
+    
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
+// 포스트 업로드
 router.post("/upload", upload, async (req, res, next) => {
-  console.log(req.file)
   const { title, contents } = req.body
-  console.log(title, contents)
+  console.log(req.file.path)
 
   try {
     // blob형태를 base64로 변환
-    const imgData = fs
+    const img_data = fs
       .readFileSync(`uploads${req.file.path.split("uploads")[1]}`)
       .toString("base64");
-    console.log('imgData', imgData)
-    // db에 path 저장
+
     await Post.create({ 
       title: title,
       contents: contents,
-      image: imgData 
+      image: img_data 
     });
 
-    res.json({ image: imgData });
-  } catch (err) {
+    res.json({ 
+      image: img_data,
+      code: 201,
+      message: '포스트 업로드가 완료되었습니다.',
+    });
+
+  } catch (error) {
     res.status(400).json({ 
-      success: false,
-      message: err.message 
+      code: 400,
+      message: error.message 
     });
   }
 });
-
-// const upload = multer({
-//   storage: multer.diskStorage({
-//     destination: (req, file, cb) => {
-//       cb(null, 'uploads/');
-//     },
-//     filename: (req, file, cb) => {
-//       cb(null, new Date().valueOf() + path.extname(file.originalname));
-//     }
-//   }),
-//   limits: { fileSize: 5 * 1024 * 1024 },
-// });
-
-// router.post('/upload', upload.single('upload_image'), async (req, res) => {
-//   console.log(req.file)
-//   const { title, contents } = req.body
-//   console.log(title, contents)
-  
-//   await Post.create({
-//     title: title,
-//     contents: contents,
-//     image: req.file.filename
-//   })
-
-//   res.status(201).json({
-//     code: 201,
-//     message: '포스트 업로드가 완료되었습니다.',
-//   })
-// });
 
 module.exports = router;

@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(500),
       },
       image: {
-        // 우리는 프론트에서 보내준 이미지를 Blob 타입으로 변환하여 서버에 저장합니다.
         type: DataTypes.BLOB("long"),
       }
     },

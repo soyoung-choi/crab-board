@@ -1,5 +1,9 @@
+.btn-wrap {
+  margin: 20px 0;
+}
+
 button {
-  border: 1px solid #e5e5e5;
+  border: none;
   padding: 15px;
   border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -22,6 +26,11 @@ button {
   border: none;
   background-color: #ffd900;
   color: #222;
+}
+
+.btn-gra {
+  background: linear-gradient(45deg, #453dff, #ff3d8e);
+  color: #fff;
 }
 
 .btn-small {

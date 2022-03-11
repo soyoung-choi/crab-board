@@ -16,6 +16,10 @@
   border-bottom: 2px solid #3D73FF !important;
 }
 
+.el-loading-spinner {
+  top: 100% !important;
+}
+
 @media (max-width: 768px) {
   .el-dialog {
     width: 80% !important;
