@@ -12,6 +12,12 @@
 						<span>작성자 </span>
 						<strong>{{ item.User.nickname }}</strong>
 					</p>
+					<p>
+						<span>작성일 </span>
+						<strong>{{
+							$dayjs(item.updatedAt).format('YYYY.MM.DD HH:mm')
+						}}</strong>
+					</p>
 
 					<button class="btn-small btn-outline" @click="deletePost(item.id)">
 						삭제 <i class="el-icon-delete"></i>
@@ -36,6 +42,7 @@ export default {
 			required: true,
 		},
 	},
+
 	methods: {
 		async deletePost(post_id) {
 			try {
