@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "NODE_ENV=production PORT=80 node ./bin/www",
+    "nodemon": "nodemon ./bin/www",
     "dev": "concurrently \"npm start\" \"npm run serve --prefix ../frontend\""
   },
   "dependencies": {
