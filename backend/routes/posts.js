@@ -62,4 +62,19 @@ router.post("/upload", isLoggedIn, upload, async (req, res, next) => {
   }
 });
 
+// 포스트 삭제
+router.delete('/:id', async (req, res, next) => {
+  const post_id = req.params.id;
+
+  await Post.destroy({
+    where: { id: post_id }
+  })
+
+  res.json({ 
+    code: 200,
+    message: '해당 포스트가 삭제되었습니다.'
+  });
+  
+});
+
 module.exports = router;

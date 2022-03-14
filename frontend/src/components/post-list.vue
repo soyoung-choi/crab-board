@@ -12,6 +12,10 @@
 						<span>작성자 </span>
 						<strong>{{ item.User.nickname }}</strong>
 					</p>
+
+					<button class="btn-small btn-outline" @click="deletePost(item.id)">
+						삭제 <i class="el-icon-delete"></i>
+					</button>
 				</div>
 
 				<div class="item-image">
@@ -23,13 +27,26 @@
 </template>
 
 <script>
-// import { fetchPostList } from '@/api/post'
+import { removePost } from '@/api/post'
 
 export default {
 	props: {
 		posts: {
 			type: Array,
 			required: true,
+		},
+	},
+	methods: {
+		async deletePost(post_id) {
+			try {
+				await removePost(post_id).then(res => {
+					this.$toasted.show(res.data.message)
+				})
+			} catch (error) {
+				console.error(error)
+			} finally {
+				window.location.reload(true)
+			}
 		},
 	},
 }

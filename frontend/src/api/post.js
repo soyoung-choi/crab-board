@@ -9,3 +9,8 @@ export function fetchPostList() {
 export function createPost(fd) {
 	return instance.post('/posts/upload', fd)
 }
+
+// 포스트 삭제
+export function removePost(post_id) {
+	return instance.delete(`/posts/${post_id}`)
+}
