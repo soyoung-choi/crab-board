@@ -23,6 +23,7 @@
 				type="submit"
 				class="btn-gra btn-full"
 				@click.prevent="submitForm"
+				@:keyup.enter="submitForm"
 			>
 				등록
 			</button>
@@ -68,10 +69,17 @@ export default {
 					this.image_path = `data:image/png;base64,${res.data.image}`
 
 					this.$toasted.show(res.data.message)
+					this.initForm()
 				})
 				.catch(error => {
 					console.error(error)
 				})
+		},
+		initForm() {
+			this.title = ''
+			this.contents = ''
+			this.upload_image = ''
+			this.image_path = ''
 		},
 	},
 }
