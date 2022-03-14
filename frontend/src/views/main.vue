@@ -3,24 +3,13 @@
 		<section class="create-post">
 			<CreatePost />
 		</section>
-		<section class="post-list" v-loading="loading">
-			<ul>
-				<li v-for="item in posts" :key="item._id">
-					<div class="item-text">
-						<h2 class="title">{{ item.title }}</h2>
-						<p class="contents">{{ item.contents }}</p>
-					</div>
-					<div class="item-image">
-						<img :src="`data:image/png;base64,${item.image}`" />
-					</div>
-				</li>
-			</ul>
-		</section>
+		<PostList :posts="posts" v-loading="loading" />
 	</div>
 </template>
 
 <script>
 import CreatePost from '@/components/create-post'
+import PostList from '@/components/post-list'
 import { fetchPostList } from '@/api/post'
 
 export default {
@@ -32,6 +21,7 @@ export default {
 	},
 	components: {
 		CreatePost,
+		PostList,
 	},
 	mounted() {
 		this.fetchPostList()
