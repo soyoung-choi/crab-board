@@ -2,27 +2,28 @@ require('dotenv').config()
 
 module.exports = {
   "development": {
-    "username": "root",
+    "username": process.env.DB_USERNAME,
     "password": process.env.DB_PASSWORD,
-    "database": process.env.DB_DATABASE,
-    "host": "127.0.0.1",
+    "database": "crab_board",
+    "host": process.env.DB_HOST,
     "dialect": "mysql",
     "timezone": "+09:00"
   },
   "test": {
-    "username": "root",
+    "username": process.env.DB_USERNAME,
     "password": process.env.DB_PASSWORD,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "database": "crab_board_test",
+    "host": process.env.DB_HOST,
     "dialect": "mysql",
     "timezone": "+09:00"
   },
   "production": {
-    "username": "root",
+    "username": process.env.DB_USERNAME,
     "password": process.env.DB_PASSWORD,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "database": "crab_board_production",
+    "host": process.env.DB_HOST,
     "dialect": "mysql",
-    "timezone": "+09:00"
+    "timezone": "+09:00",
+    "logging": false,
   }
 }
