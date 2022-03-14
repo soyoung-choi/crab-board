@@ -35,7 +35,7 @@
 
 <script>
 import { createToken } from '@/api/auth'
-import { saveAuthToCookie } from '@/utils/cookies'
+import { saveAuthToCookie, saveNicknameToCookie } from '@/utils/cookies'
 
 export default {
 	data() {
@@ -56,11 +56,10 @@ export default {
 				}).then(res => {
 					this.$toasted.show(res.data.message)
 
-					const access_token = res.data.token
-					if (access_token) {
-						saveAuthToCookie(access_token)
-						this.$store.commit('MU_ACCESS_TOKEN', access_token)
-					}
+					saveAuthToCookie(res.data.token)
+					saveNicknameToCookie(res.data.nickname)
+					this.$store.commit('MU_ACCESS_TOKEN', res.data.token)
+					this.$store.commit('MU_NICKNAME', res.data.nickname)
 				})
 			} catch (error) {
 				console.error(error)
