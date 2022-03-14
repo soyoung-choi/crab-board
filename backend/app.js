@@ -38,10 +38,17 @@ sequelize
     console.error(err)
   })
 
-app.use(logger('dev'));
+
+if(process.env.NODE_ENV === "production") {
+  // 버그해결을 위해 사용자정보를 로그에 남김
+  app.use(logger('combined')) 
+} else {
+  app.use(logger('dev'))
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -55,10 +62,10 @@ app.use(
     secret: process.env.COOKIE_SECRET, // 서명에 필요한 값
     cookie: {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60, // 유효기간 1시간
-      expires: 60 * 60 * 24 // 쿠키 지속기간
+      maxAge: 1000 * 60 * 60,
+      expires: 60 * 60 * 24,
+      secure: false, // https일 때 적용
     },
-    secure: false,
   })
 )
 
