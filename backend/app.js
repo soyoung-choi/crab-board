@@ -5,11 +5,13 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+const morgan = require('morgan');
 const cors = require('cors')
 const passport = require('passport')
 const passportConfig = require('./passport')
 const session = require('express-session')
+const helmet = require('helmet')
+const hpp = require('hpp')
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -41,9 +43,13 @@ sequelize
 
 if(process.env.NODE_ENV === "production") {
   // 버그해결을 위해 사용자정보를 로그에 남김
-  app.use(logger('combined')) 
+  app.use(morgan('combined')) 
+  app.use(helmet({
+    contentSecurityPolicy: false
+  }))
+  app.use(hpp())
 } else {
-  app.use(logger('dev'))
+  app.use(morgan('dev'))
 }
 
 app.use(express.json());
