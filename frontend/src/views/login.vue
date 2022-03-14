@@ -10,12 +10,18 @@
 					<input
 						type="email"
 						v-model="email"
+						name="email"
 						placeholder="이메일"
 						ref="email"
 					/>
 				</div>
 				<div class="form-item">
-					<input type="password" v-model="password" placeholder="패스워드" />
+					<input
+						type="password"
+						v-model="password"
+						name="password"
+						placeholder="패스워드"
+					/>
 				</div>
 				<div class="btn-wrap">
 					<button
@@ -63,6 +69,7 @@ export default {
 				})
 			} catch (error) {
 				console.error(error)
+				this.$toasted.show(error.response.data.message)
 			} finally {
 				this.$router.push({ name: 'main' })
 			}

@@ -39,6 +39,8 @@ export default {
 			await logout().then(res => {
 				this.$store.dispatch('AC_LOGOUT')
 				this.$toasted.show(res.data.message)
+
+				this.$router.push({ name: 'login' })
 			})
 		},
 	},

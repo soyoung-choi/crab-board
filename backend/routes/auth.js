@@ -2,29 +2,32 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
-const { isLoggedIn, isNotLoggedIn } = require('../middlewares/login')
+const { isLoggedIn, isNotLoggedIn } = require('../middlewares/auth')
 
 // 로그인
-router.post('/token', async (req, res, next) => {
-  console.log('req.user', req.user)
+router.post('/token', isNotLoggedIn, async (req, res, next) => {
   try {
     passport.authenticate('local', (err, user, info) => {
-    
-      if (err) return next(err)
-      if (!user) return res.send(info)
-      if (info) {
-        return res.status(401).send(info.message);
-      }
+      // 서버에 에러가 있는 경우
+      if (err) return next(err);
       
-      req.logIn(user, (err) => {
+      if (info) {
+        // 로직 상 에러가 있는 경우
+        return res.status(401).json({
+          message: info.message
+        })
+      }
+
+      return req.login(user, (err) => {
         if (err) return next(err)
+        
         const token = jwt.sign(
           { user_id : user.id },
-          'jwt-secret-key',
+          process.env.JWT_SECRET,
           { expiresIn: '7d' }
         );
         
-        return res.json({ 
+        res.json({ 
           message : "로그인되었습니다.",
           token,
           nickname: user.nickname
@@ -49,11 +52,12 @@ router.get('/kakao/callback', passport.authenticate('kakao', {
 // 로그아웃
 router.get('/logout', async (req, res) => {
   req.logout() // 세션 쿠기가 사라짐
+  req.session.destroy();
 
-  req.session.destroy((err) => {
-    if(err) throw new Error(err)
-    return res.status(205).send('로그아웃되었습니다.')
+  return res.json({
+    message: '로그아웃되었습니다.'
   })
+
 })
 
 module.exports = router;

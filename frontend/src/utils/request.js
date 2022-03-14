@@ -13,6 +13,8 @@ instance.interceptors.request.use(
 		if (access_token) {
 			config.headers.Authorization = `Bearer ${access_token}`
 		}
+
+		config.withCredentials = true
 		return config
 	},
 	function (error) {

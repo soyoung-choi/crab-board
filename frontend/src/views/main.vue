@@ -1,14 +1,18 @@
 <template>
 	<div class="container">
+		<h3>
+			총 <span class="color-main">{{ posts.length }}</span
+			>개
+		</h3>
 		<section class="create-post">
-			<CreatePost />
+			<PostAdd />
 		</section>
 		<PostList :posts="posts" v-loading="loading" />
 	</div>
 </template>
 
 <script>
-import CreatePost from '@/components/create-post'
+import PostAdd from '@/components/post-add'
 import PostList from '@/components/post-list'
 import { fetchPostList } from '@/api/post'
 
@@ -20,7 +24,7 @@ export default {
 		}
 	},
 	components: {
-		CreatePost,
+		PostAdd,
 		PostList,
 	},
 	mounted() {
@@ -28,8 +32,8 @@ export default {
 	},
 	methods: {
 		async fetchPostList() {
-			await fetchPostList()
-				.then(res => {
+			try {
+				await fetchPostList().then(res => {
 					this.loading = true
 					const posts = res.data.posts
 
@@ -38,9 +42,9 @@ export default {
 					)
 					this.loading = false
 				})
-				.catch(error => {
-					console.error(error)
-				})
+			} catch (error) {
+				console.error(error)
+			}
 		},
 	},
 }
@@ -59,6 +63,10 @@ export default {
 .create-post {
 	float: right;
 	width: 48%;
+}
+
+h3 {
+	padding-top: 30px;
 }
 
 li {

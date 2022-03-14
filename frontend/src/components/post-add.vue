@@ -50,29 +50,31 @@ export default {
 			this.upload_image = e.target.files[0]
 		},
 		async submitForm() {
-			const form = new FormData()
-			form.append('title', this.title)
-			form.append('contents', this.contents)
-			form.append('upload_image', this.upload_image)
+			try {
+				const form = new FormData()
+				form.append('title', this.title)
+				form.append('contents', this.contents)
+				form.append('upload_image', this.upload_image)
 
-			if (form) {
-				for (let key of form.entries()) {
-					console.log(key)
+				if (form) {
+					for (let key of form.entries()) {
+						console.log(key)
+					}
 				}
-			}
 
-			await createPost(form, {
-				headers: { 'Content-Type': 'multipart/form-data' },
-			})
-				.then(res => {
+				await createPost(form, {
+					headers: { 'Content-Type': 'multipart/form-data' },
+				}).then(res => {
 					this.image_path = `data:image/png;base64,${res.data.image}`
 
 					this.$toasted.show(res.data.message)
-					this.initForm()
 				})
-				.catch(error => {
-					console.error(error)
-				})
+			} catch (error) {
+				console.error(error)
+			} finally {
+				this.initForm()
+				window.location.href = '/'
+			}
 		},
 		initForm() {
 			this.title = ''

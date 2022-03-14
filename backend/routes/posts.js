@@ -3,26 +3,25 @@ const router = express.Router();
 const { Post, User } = require('../models')
 const upload = require('../middlewares/upload')
 const fs = require('fs')
-const { isLoggedIn, isNotLoggedIn } = require('../middlewares/login')
+const { isLoggedIn, isNotLoggedIn } = require('../middlewares/auth');
+const user = require('../models/user');
 
 // 포스트 목록
-router.get('/', async (req, res, next) => {
-  console.log('session', req.session)
+router.get('/', isLoggedIn, async (req, res, next) => {
   console.log(req.user)
-  console.log(req.isAuthenticated())
-  
+
   try {
     const posts = await Post.findAll({
       // 게시글의 작성자
-      // include: {
-      //   model: User,
-      //   attributes: ['id', 'nickname']
-      // },
-      order: [['created_at', 'DESC']]
+      include: [{
+        model: User,
+        attributes: ['id', 'nickname'],
+      }],
+      order: [['created_at', 'DESC']],
     })
+    
     res.status(200).json({
       posts: posts,
-      user: req.user,
     })
     
   } catch (error) {
@@ -32,11 +31,9 @@ router.get('/', async (req, res, next) => {
 })
 
 // 포스트 업로드
-router.post("/upload", upload, async (req, res, next) => {
+router.post("/upload", isLoggedIn, upload, async (req, res, next) => {
   const { title, contents } = req.body
   console.log(req.file.path)
-  console.log(req.user)
-  console.log(req.session)
 
   try {
     // blob형태를 base64로 변환
@@ -48,7 +45,7 @@ router.post("/upload", upload, async (req, res, next) => {
       title: title,
       contents: contents,
       image: img_data,
-      // user_id: req.user.id
+      user_id: req.user.id
     });
 
     res.json({ 

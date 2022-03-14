@@ -7,6 +7,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors')
+const passport = require('passport')
+const passportConfig = require('./passport')
 const session = require('express-session')
 
 const indexRouter = require('./routes/index');
@@ -43,6 +45,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+passportConfig()
+
 // req.session
 app.use(
   session({
@@ -51,16 +55,13 @@ app.use(
     secret: process.env.COOKIE_SECRET, // 서명에 필요한 값
     cookie: {
       httpOnly: true,
-      maxAge: 1000 * 30,
+      maxAge: 1000 * 60 * 60, // 유효기간 1시간
       expires: 60 * 60 * 24 // 쿠키 지속기간
     },
     secure: false,
   })
 )
 
-const passport = require('passport')
-const passportConfig = require('./passport')
-passportConfig()
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -70,12 +71,12 @@ app.use('/api/posts', postsRouter);
 app.use('/api/auth', authRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) =>{
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) =>{
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
