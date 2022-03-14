@@ -7,16 +7,18 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors')
+const session = require('express-session')
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts')
+const authRouter = require('./routes/auth')
 
 const { sequelize } = require('./models')
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:8081',
+  origin: true,
   credentials: true,
 }))
 
@@ -40,9 +42,32 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// req.session
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET, // 서명에 필요한 값
+    cookie: {
+      httpOnly: true,
+      maxAge: 1000 * 30,
+      expires: 60 * 60 * 24 // 쿠키 지속기간
+    },
+    secure: false,
+  })
+)
+
+const passport = require('passport')
+const passportConfig = require('./passport')
+passportConfig()
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/posts', postsRouter);
+app.use('/api/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
