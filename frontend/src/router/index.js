@@ -1,18 +1,28 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index'
 
 Vue.use(VueRouter)
+
+const requireAuth = () => (to, from, next) => {
+	if (store.state.access_token !== '') {
+		return next()
+	}
+	next('/login')
+}
 
 const routes = [
 	{
 		path: '/',
 		name: 'main',
 		component: () => import('@/views/main.vue'),
+		beforeEnter: requireAuth(),
 	},
 	{
 		path: '/post',
 		name: 'post',
 		component: () => import('@/views/post.vue'),
+		beforeEnter: requireAuth(),
 	},
 	{
 		path: '/login',
