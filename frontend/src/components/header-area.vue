@@ -7,15 +7,38 @@
 				</h1>
 			</div>
 			<nav id="nav">
-				<router-link :to="{ name: 'signup' }">회원가입</router-link>
-				<router-link :to="{ name: 'login' }">로그인</router-link>
+				<template v-if="GET_ACCESS_TOKEN">
+					<a href="#" @click.prevent="handleLogout">로그아웃</a>
+				</template>
+				<template v-else>
+					<router-link :to="{ name: 'signup' }">회원가입</router-link>
+					<router-link :to="{ name: 'login' }">로그인</router-link>
+				</template>
 			</nav>
 		</div>
 	</header>
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+import { logout } from '@/api/auth'
+
+export default {
+	data() {
+		return {}
+	},
+	computed: {
+		...mapGetters(['GET_ACCESS_TOKEN']),
+	},
+	methods: {
+		async handleLogout() {
+			await logout().then(res => {
+				this.$store.dispatch('AC_LOGOUT')
+				this.$toasted.show(res.data.message)
+			})
+		},
+	},
+}
 </script>
 
 <style scoped>
@@ -24,6 +47,7 @@ export default {}
 	padding: 5px;
 	box-sizing: border-box;
 	overflow: hidden;
+	background-color: #fff;
 }
 
 #header .logo-wrap {

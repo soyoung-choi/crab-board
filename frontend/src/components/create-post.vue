@@ -20,7 +20,6 @@
 		</div>
 		<div class="btn-wrap">
 			<button
-				type="submit"
 				class="btn-gra btn-full"
 				@click.prevent="submitForm"
 				@:keyup.enter="submitForm"

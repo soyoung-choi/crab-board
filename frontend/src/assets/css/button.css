@@ -16,6 +16,11 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  background: #222;
+  color: #fff;
+}
+
 .btn-main {
   background-color: #3D73FF;
   border: none;

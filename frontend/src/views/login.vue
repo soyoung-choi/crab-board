@@ -1,11 +1,11 @@
 <template>
-	<div>
-		<div class="container">
+	<div class="container">
+		<section>
 			<div class="title-wrap">
 				<h1 class="title">로그인</h1>
 			</div>
 
-			<form @click.prevent="submitForm">
+			<form>
 				<div class="form-item">
 					<input
 						type="email"
@@ -18,15 +18,24 @@
 					<input type="password" v-model="password" placeholder="패스워드" />
 				</div>
 				<div class="btn-wrap">
-					<button type="submit" class="btn-gra btn-full">로그인</button>
+					<button
+						class="btn-gra btn-full"
+						@click.prevent="submitForm"
+						@:keyup.enter="submitForm"
+						:disabled="!email || !password"
+					>
+						로그인
+					</button>
 				</div>
 			</form>
-		</div>
+			<a href="http://localhost:5001/api/auth/kakao">카카오로그인</a>
+		</section>
 	</div>
 </template>
 
 <script>
 import { createToken } from '@/api/auth'
+import { saveAuthToCookie } from '@/utils/cookies'
 
 export default {
 	data() {
@@ -40,24 +49,38 @@ export default {
 	},
 	methods: {
 		async submitForm() {
-			await createToken({
-				email: this.email,
-				password: this.password,
-			})
-				.then(res => {
-					console.log(res.data.message)
+			try {
+				await createToken({
+					email: this.email,
+					password: this.password,
+				}).then(res => {
+					this.$toasted.show(res.data.message)
+
+					const access_token = res.data.token
+					if (access_token) {
+						saveAuthToCookie(access_token)
+						this.$store.commit('MU_ACCESS_TOKEN', access_token)
+					}
 				})
-				.catch(error => {
-					console.error(error)
-				})
+			} catch (error) {
+				console.error(error)
+			} finally {
+				this.$router.push({ name: 'main' })
+			}
 		},
 	},
 }
 </script>
 
 <style scoped>
-.login .container {
+section {
 	width: 500px;
 	margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+	section {
+		width: 100%;
+	}
 }
 </style>

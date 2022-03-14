@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<div class="container">
+	<div class="container">
+		<section>
 			<div class="title-wrap">
 				<h1 class="title">회원가입</h1>
 			</div>
@@ -33,7 +33,7 @@
 					</button>
 				</div>
 			</form>
-		</div>
+		</section>
 	</div>
 </template>
 
@@ -73,8 +73,14 @@ export default {
 </script>
 
 <style scoped>
-.signup .container {
+section {
 	width: 500px;
 	margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+	section {
+		width: 100%;
+	}
 }
 </style>
