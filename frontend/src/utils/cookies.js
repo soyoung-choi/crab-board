@@ -1,25 +1,25 @@
 import VueCookies from 'vue-cookies'
 
 export function saveAuthToCookie(token) {
-	VueCookies.set('access_token', token)
+	return VueCookies.set('access_token', token)
 }
 
 export function saveUserToCookie(email) {
-	VueCookies.set('email', email)
+	return VueCookies.set('email', email)
 }
 
 export function getAuthFromCookie() {
-	VueCookies.get('access_token')
+	return VueCookies.get('access_token')
 }
 
 export function getUserFromCookie() {
-	VueCookies.get('email')
+	return VueCookies.get('email')
 }
 
 export function removeAuthFromCookie() {
-	VueCookies.remove('access_token')
+	return VueCookies.remove('access_token')
 }
 
 export function removeUserFromCookie() {
-	VueCookies.remove('email')
+	return VueCookies.remove('email')
 }
