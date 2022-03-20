@@ -10,6 +10,8 @@ const cors = require('cors')
 const passport = require('passport')
 const passportConfig = require('./passport')
 const session = require('express-session')
+const FileStore = require('session-file-store')(session)
+
 const helmet = require('helmet')
 const hpp = require('hpp')
 
@@ -69,9 +71,9 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 1000 * 60 * 60,
-      expires: 60 * 60 * 24,
       secure: false, // https일 때 적용
     },
+    store: new FileStore()
   })
 )
 

@@ -68,10 +68,9 @@ export default {
 					this.$store.commit('MU_NICKNAME', res.data.nickname)
 				})
 			} catch (error) {
-				console.error(error)
 				this.$toasted.show(error.response.data.message)
 			} finally {
-				this.$router.push({ name: 'main' })
+				this.$router.push('/')
 			}
 		},
 	},

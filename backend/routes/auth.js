@@ -3,9 +3,10 @@ const router = express.Router();
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares/auth')
+// const { getSession } = require('../middlewares/redis')
 
 // 로그인
-router.post('/token', isNotLoggedIn, async (req, res, next) => {
+router.post('/token', async (req, res, next) => {
   try {
     passport.authenticate('local', (err, user, info) => {
       // 서버에 에러가 있는 경우

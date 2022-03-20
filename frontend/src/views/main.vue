@@ -28,16 +28,16 @@ export default {
 		PostList,
 	},
 	mounted() {
-		this.fetchPostList()
+		this.fetchData()
 	},
 	methods: {
-		async fetchPostList() {
+		async fetchData() {
 			try {
 				await fetchPostList().then(res => {
 					this.loading = true
-					const posts = res.data.posts
+					const post_list = res.data.posts
 
-					this.posts = posts.filter(
+					this.posts = post_list.filter(
 						post => (post.image = Buffer.from(post.image, 'base64'))
 					)
 					this.loading = false

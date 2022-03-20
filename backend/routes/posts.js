@@ -3,29 +3,26 @@ const router = express.Router();
 const { Post, User } = require('../models')
 const upload = require('../middlewares/upload')
 const fs = require('fs')
-const { isLoggedIn, isNotLoggedIn } = require('../middlewares/auth');
-const user = require('../models/user');
+const { isLoggedIn } = require('../middlewares/auth');
 
 // 포스트 목록
 router.get('/', isLoggedIn, async (req, res, next) => {
-  console.log(req.user)
-
   try {
     const posts = await Post.findAll({
       // 게시글의 작성자
       include: [{
         model: User,
-        attributes: ['id', 'nickname'],
+        attributes: ['id', 'nickname', 'email'],
       }],
       order: [['created_at', 'DESC']],
     })
     
-    res.status(200).json({
+    res.json({
       posts: posts,
     })
     
   } catch (error) {
-    console.error(error)
+    console.log(error)
     next(error)
   }
 })
@@ -63,7 +60,7 @@ router.post("/upload", isLoggedIn, upload, async (req, res, next) => {
 });
 
 // 포스트 삭제
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', isLoggedIn, async (req, res, next) => {
   const post_id = req.params.id;
 
   await Post.destroy({
@@ -74,7 +71,6 @@ router.delete('/:id', async (req, res, next) => {
     code: 200,
     message: '해당 포스트가 삭제되었습니다.'
   });
-  
 });
 
 module.exports = router;
