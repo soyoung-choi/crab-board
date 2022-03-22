@@ -12,6 +12,7 @@
 						<span class="color-main">{{ GET_NICKNAME }}</span
 						>님 환영합니다!
 					</span>
+					<router-link :to="{ name: 'mypage' }">마이페이지</router-link>
 					<a href="#" @click.prevent="handleLogout">로그아웃</a>
 				</template>
 				<template v-else>
