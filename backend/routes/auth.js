@@ -55,10 +55,7 @@ router.get('/logout', async (req, res) => {
   req.logout() // 세션 쿠기가 사라짐
   req.session.destroy();
 
-  return res.json({
-    message: '로그아웃되었습니다.'
-  })
-
+  res.redirect('/')
 })
 
 module.exports = router;

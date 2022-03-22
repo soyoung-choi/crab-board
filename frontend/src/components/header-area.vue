@@ -38,9 +38,8 @@ export default {
 	methods: {
 		async handleLogout() {
 			await logout().then(res => {
+				console.log(res)
 				this.$store.dispatch('AC_LOGOUT')
-				this.$toasted.show(res.data.message)
-
 				this.$router.push({ name: 'login' })
 			})
 		},
