@@ -3,7 +3,6 @@ const router = express.Router();
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares/loginCheck')
-// const { getSession } = require('../middlewares/redis')
 
 // 로그인
 router.post('/token', async (req, res, next) => {
@@ -19,10 +18,11 @@ router.post('/token', async (req, res, next) => {
         })
       }
 
+      // serialize 호출
       return req.login(user, (err) => {
         if (err) return next(err)
         
-        const token = jwt.sign(
+        const access_token = jwt.sign(
           { user_id : user.id },
           process.env.JWT_SECRET,
           { expiresIn: '7d' }
@@ -30,13 +30,13 @@ router.post('/token', async (req, res, next) => {
         
         res.json({ 
           message : "로그인되었습니다.",
-          token,
+          access_token,
           nickname: user.nickname
         });
       })
     })(req, res, next)
   } catch (error) {
-    console.error(error)
+    return next(error);
   }
 })
 

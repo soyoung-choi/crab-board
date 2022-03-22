@@ -17,9 +17,8 @@ module.exports = () => {
         where: { id },
       });
       return done(null, user); // 불러온 user 정보는 req.user에 저장
-    } catch (e) {
-      console.error(e);
-      return done(e);
+    } catch (error) {
+      return done(error);
     }
   });
   

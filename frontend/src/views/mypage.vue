@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container" v-loading="loading">
 		<section>
 			<div class="title-wrap">
 				<h1 class="title">마이페이지</h1>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { findPassword, resetPassword } from '@/api/user'
+import { fetchUserProfile, findPassword, resetPassword } from '@/api/user'
 
 export default {
 	data() {
@@ -51,9 +51,25 @@ export default {
 			token: '',
 			password: '',
 			modal_reset_password: false,
+			profile: null,
 		}
 	},
+	mounted() {
+		this.fetchData()
+	},
 	methods: {
+		async fetchData() {
+			try {
+				await fetchUserProfile().then(res => {
+					this.loading = true
+					this.profile = res.data.profile
+
+					this.loading = false
+				})
+			} catch (error) {
+				console.error(error)
+			}
+		},
 		async findPassword() {
 			try {
 				await findPassword({

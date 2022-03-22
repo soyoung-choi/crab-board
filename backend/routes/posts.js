@@ -22,7 +22,6 @@ router.get('/', isLoggedIn, async (req, res, next) => {
     })
     
   } catch (error) {
-    console.log(error)
     next(error)
   }
 })
@@ -52,25 +51,25 @@ router.post("/upload", isLoggedIn, upload, async (req, res, next) => {
     });
 
   } catch (error) {
-    res.status(400).json({ 
-      code: 400,
-      message: error.message 
-    });
+    next(error)
   }
 });
 
 // 포스트 삭제
 router.delete('/:id', isLoggedIn, async (req, res, next) => {
-  const post_id = req.params.id;
+  const { id } = req.params;
 
-  await Post.destroy({
-    where: { id: post_id }
-  })
-
-  res.json({ 
-    code: 200,
-    message: '해당 포스트가 삭제되었습니다.'
-  });
+  try {
+    await Post.destroy({ where: { id } })
+  
+    res.json({ 
+      code: 200,
+      message: '해당 포스트가 삭제되었습니다.'
+    });
+  } catch (error) {
+    next(error)
+  }
+  
 });
 
 module.exports = router;
