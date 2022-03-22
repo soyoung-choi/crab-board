@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
-const { isLoggedIn, isNotLoggedIn } = require('../middlewares/auth')
+const { isLoggedIn, isNotLoggedIn } = require('../middlewares/loginCheck')
 // const { getSession } = require('../middlewares/redis')
 
 // 로그인

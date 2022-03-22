@@ -3,7 +3,7 @@ const router = express.Router();
 const { Post, User } = require('../models')
 const upload = require('../middlewares/upload')
 const fs = require('fs')
-const { isLoggedIn } = require('../middlewares/auth');
+const { isLoggedIn } = require('../middlewares/loginCheck');
 
 // 포스트 목록
 router.get('/', isLoggedIn, async (req, res, next) => {
