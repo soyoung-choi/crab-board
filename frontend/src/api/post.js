@@ -5,7 +5,12 @@ export function fetchPostList() {
 	return instance.get('/posts')
 }
 
-// 이미지 업로드
+// 포스트 정보 조회
+export function fetchPost(post_id) {
+	return instance.get(`/posts/${post_id}`)
+}
+
+// 포스트 이미지 업로드
 export function createPost(fd) {
 	return instance.post('/posts/upload', fd)
 }
