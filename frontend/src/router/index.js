@@ -19,9 +19,9 @@ const routes = [
 		beforeEnter: requireAuth(),
 	},
 	{
-		path: '/post',
-		name: 'post',
-		component: () => import('@/views/post.vue'),
+		path: '/post/:id',
+		name: 'post-detail',
+		component: () => import('@/views/post-detail.vue'),
 		beforeEnter: requireAuth(),
 	},
 	{
@@ -33,6 +33,11 @@ const routes = [
 		path: '/signup',
 		name: 'signup',
 		component: () => import('@/views/signup.vue'),
+	},
+	{
+		path: '/mypage',
+		name: 'mypage',
+		component: () => import('@/views/mypage.vue'),
 	},
 	{
 		path: '*',
