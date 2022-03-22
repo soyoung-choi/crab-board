@@ -28,7 +28,11 @@
 					/>
 				</div>
 				<div class="btn-wrap">
-					<button @click.prevent="submitForm" class="btn-gra btn-full">
+					<button
+						@click.prevent="submitForm"
+						class="btn-gra btn-full"
+						:disabled="!is_email_valid"
+					>
 						회원가입
 					</button>
 				</div>
@@ -39,6 +43,7 @@
 
 <script>
 import { createUser } from '@/api/user'
+import { validateEmail } from '@/utils/validation'
 
 export default {
 	data() {
@@ -51,6 +56,11 @@ export default {
 	},
 	mounted() {
 		this.$refs.email.focus()
+	},
+	computed: {
+		is_email_valid() {
+			return validateEmail(this.email)
+		},
 	},
 	methods: {
 		async submitForm() {
