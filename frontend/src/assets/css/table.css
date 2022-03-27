@@ -1,0 +1,21 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table td {
+  padding: 15px;
+}
+
+table tr:first-child {
+  border-top: 1px solid #000;
+}
+
+table tr td:first-child {
+  background-color: #EEF2F6;
+  width: 20%;
+}
+
+table tr {
+  border-bottom: 1px solid #e5e5e5;
+}

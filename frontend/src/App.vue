@@ -12,6 +12,7 @@ import '@/assets/css/color.css'
 import '@/assets/css/button.css'
 import '@/assets/css/element-ui.css'
 import '@/assets/css/icon.css'
+import '@/assets/css/table.css'
 import HeaderArea from '@/components/header-area'
 import FooterArea from '@/components/footer-area'
 
