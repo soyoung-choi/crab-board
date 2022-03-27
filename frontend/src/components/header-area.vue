@@ -3,7 +3,9 @@
 		<div class="container">
 			<div class="logo-wrap">
 				<h1 class="logo">
-					<router-link to="/">게시판</router-link>
+					<router-link to="/">
+						<img src="@/assets/images/logo.svg" alt="로고" />
+					</router-link>
 				</h1>
 			</div>
 			<nav id="nav">
@@ -37,8 +39,7 @@ export default {
 	},
 	methods: {
 		async handleLogout() {
-			await logout().then(res => {
-				console.log(res)
+			await logout().then(() => {
 				this.$store.dispatch('AC_LOGOUT')
 				this.$router.push({ name: 'login' })
 			})
@@ -50,7 +51,7 @@ export default {
 <style scoped>
 #header {
 	box-shadow: 10px 10px 10px #f4f4f4;
-	padding: 5px;
+	padding: 15px 0 5px;
 	box-sizing: border-box;
 	overflow: hidden;
 	background-color: #fff;
@@ -58,11 +59,13 @@ export default {
 
 #header .logo-wrap {
 	float: left;
+	width: 200px;
+	display: inline-block;
 }
 
 #header #nav {
 	float: right;
-	padding: 15px 0;
+	padding: 5px 0 15px;
 }
 
 #header #nav a {
