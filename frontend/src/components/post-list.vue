@@ -9,7 +9,7 @@
 						<strong>{{ item.contents }}</strong>
 					</p>
 					<p>
-						<span>작성자 </span>
+						<span>닉네임 </span>
 						<strong>{{ item.User.nickname }}</strong>
 					</p>
 					<p>
@@ -19,9 +19,11 @@
 						}}</strong>
 					</p>
 
-					<button class="btn-small btn-outline" @click="deletePost(item.id)">
-						삭제 <i class="el-icon-delete"></i>
-					</button>
+					<div class="btn-wrap">
+						<button class="btn-small btn-outline" @click="deletePost(item.id)">
+							삭제 <i class="el-icon-delete"></i>
+						</button>
+					</div>
 				</div>
 
 				<div class="item-image">
