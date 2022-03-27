@@ -62,9 +62,9 @@ export default {
 				}).then(res => {
 					this.$toasted.show(res.data.message)
 
-					saveAuthToCookie(res.data.token)
+					saveAuthToCookie(res.data.access_token)
 					saveNicknameToCookie(res.data.nickname)
-					this.$store.commit('MU_ACCESS_TOKEN', res.data.token)
+					this.$store.commit('MU_ACCESS_TOKEN', res.data.access_token)
 					this.$store.commit('MU_NICKNAME', res.data.nickname)
 				})
 			} catch (error) {

@@ -48,7 +48,7 @@ export default {
 					this.loading = false
 				})
 			} catch (error) {
-				console.error(error)
+				this.$toasted.show(error.response.data.message)
 			}
 		},
 	},

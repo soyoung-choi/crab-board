@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares/loginCheck')
+const { Auth } = require('../models')
 
 // 로그인
 router.post('/token', async (req, res, next) => {
@@ -51,11 +52,17 @@ router.get('/kakao/callback', passport.authenticate('kakao', {
 })
 
 // 로그아웃
-router.get('/logout', async (req, res) => {
-  req.logout() // 세션 쿠기가 사라짐
-  req.session.destroy();
+router.get('/logout', isLoggedIn, async (req, res, next) => {
+  try {
+    req.logout() // 세션 쿠기가 사라짐
+    req.session.destroy();
 
-  res.redirect('/')
+    
+    res.redirect('/')
+  } catch (error) {
+    next(error)
+  }
+  
 })
 
 module.exports = router;

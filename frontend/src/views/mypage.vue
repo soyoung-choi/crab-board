@@ -5,37 +5,49 @@
 				<h1 class="title">마이페이지</h1>
 			</div>
 
-			<form @submit.prevent="findPassword">
-				<input
-					type="email"
-					v-model="email"
-					placeholder="이메일을 입력해주세요."
-					class="form-item"
-				/>
-
-				<button class="btn-full btn-main">비밀번호 찾기</button>
-			</form>
+			<table>
+				<tr>
+					<td>이메일</td>
+					<td>{{ profile.email }}</td>
+				</tr>
+				<tr>
+					<td>닉네임</td>
+					<td>{{ profile.nickname }}</td>
+				</tr>
+				<tr>
+					<td>가입 경로</td>
+					<td>{{ profile.provider }}</td>
+				</tr>
+				<tr>
+					<td>가입일</td>
+					<td>{{ $dayjs(profile.created_at).format('YYYY.MM.DD HH:mm') }}</td>
+				</tr>
+			</table>
 		</section>
 
+		<section>
+			<button class="btn-outline btn-main" @click="findPassword">
+				비밀번호 변경
+			</button>
+		</section>
 		<!-- 글쓰기 팝업 -->
 		<el-dialog title="비밀번호 재설정" :visible.sync="modal_reset_password">
 			<form @submit.prevent="resetPassword">
-				<input
-					type="email"
-					v-model="email"
-					placeholder="이메일을 입력해주세요."
-				/>
-				<input
-					type="text"
-					v-model="token"
-					placeholder="인증코드를 입력해주세요."
-				/>
-				<input
-					type="password"
-					v-model="password"
-					placeholder="비밀번호를 입력해주세요."
-				/>
-				<button class="btn-full btn-main">재설정</button>
+				<div class="form-item">
+					<input
+						type="text"
+						v-model="token"
+						placeholder="인증코드를 입력해주세요."
+					/>
+				</div>
+				<div class="form-item">
+					<input
+						type="password"
+						v-model="password"
+						placeholder="새로운 비밀번호를 입력해주세요."
+					/>
+				</div>
+				<button class="btn-full btn-main">확인</button>
 			</form>
 		</el-dialog>
 	</div>
@@ -43,6 +55,7 @@
 
 <script>
 import { fetchUserProfile, findPassword, resetPassword } from '@/api/user'
+import { mapGetters } from 'vuex'
 
 export default {
 	data() {
@@ -53,6 +66,9 @@ export default {
 			modal_reset_password: false,
 			profile: null,
 		}
+	},
+	computed: {
+		...mapGetters(['GET_EMAIL']),
 	},
 	mounted() {
 		this.fetchData()
@@ -73,29 +89,29 @@ export default {
 		async findPassword() {
 			try {
 				await findPassword({
-					email: this.email,
-					code: this.code,
+					email: this.profile.email,
 				}).then(res => {
-					this.$toasted.success(res.data.message)
+					this.$toasted.success(`${this.profile.email}로 ${res.data.message}`)
 					this.modal_reset_password = true
 				})
-			} catch (e) {
-				this.$toasted.error(e.response.data.message)
+			} catch (error) {
+				this.$toasted.error(error.response.data.message)
 			}
 		},
 		async resetPassword() {
 			try {
 				await resetPassword({
-					email: this.email,
 					token: this.token,
 					password: this.password,
 				}).then(res => {
 					this.$toasted.success(res.data.message)
 					this.modal_reset_password = false
-					this.$router.push({ name: '/login' })
+
+					this.$store.dispatch('AC_LOGOUT')
+					this.$router.push({ name: 'login' })
 				})
-			} catch (e) {
-				this.$toasted.error(e.response.data.message)
+			} catch (error) {
+				this.$toasted.error(error.response.data.message)
 			}
 		},
 	},
