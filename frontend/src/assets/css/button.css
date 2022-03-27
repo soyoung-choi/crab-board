@@ -22,7 +22,7 @@ button:disabled {
 }
 
 .btn-main {
-  background-color: #3D73FF;
+  background-color: #3144ac;
   border: none;
   color: #FFF;
 }
@@ -34,13 +34,14 @@ button:disabled {
 }
 
 .btn-gra {
-  background: linear-gradient(45deg, #453dff, #ff3d8e);
+  background: linear-gradient(45deg, #3144ac, #ff3d8e);
   color: #fff;
 }
 
 .btn-outline {
   border: 1px solid black;
   background-color: #fff;
+  color: #222;
 }
 
 .btn-small {
