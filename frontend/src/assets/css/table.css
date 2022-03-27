@@ -1,6 +1,7 @@
 table {
   border-collapse: collapse;
   width: 100%;
+  font-size: 15px;
 }
 
 table td {
@@ -13,7 +14,7 @@ table tr:first-child {
 
 table tr td:first-child {
   background-color: #EEF2F6;
-  width: 20%;
+  width: 30%;
 }
 
 table tr {
