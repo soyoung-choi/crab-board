@@ -27,7 +27,12 @@ export default {
 		PostAdd,
 		PostList,
 	},
-	mounted() {
+	created() {
+		if (this.posts.length === 0) {
+			setTimeout(() => {
+				this.fetchData()
+			}, 1000)
+		}
 		this.fetchData()
 	},
 	methods: {

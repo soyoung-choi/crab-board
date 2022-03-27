@@ -46,7 +46,6 @@ router.post("/upload", isLoggedIn, upload, async (req, res, next) => {
 
     res.json({ 
       image: img_data,
-      code: 201,
       message: '포스트 업로드가 완료되었습니다.',
     });
 
@@ -62,14 +61,12 @@ router.delete('/:id', isLoggedIn, async (req, res, next) => {
   try {
     await Post.destroy({ where: { id } })
   
-    res.json({ 
-      code: 200,
+    res.json({
       message: '해당 포스트가 삭제되었습니다.'
     });
   } catch (error) {
     next(error)
   }
-  
 });
 
 module.exports = router;

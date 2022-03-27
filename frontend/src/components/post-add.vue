@@ -73,7 +73,7 @@ export default {
 				console.error(error)
 			} finally {
 				this.initForm()
-				window.location.href = '/'
+				window.location.reload(true)
 			}
 		},
 		initForm() {
