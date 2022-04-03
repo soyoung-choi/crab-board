@@ -12,7 +12,7 @@ router.get('/', isLoggedIn, async (req, res, next) => {
       // 게시글의 작성자
       include: [{
         model: User,
-        attributes: ['id', 'nickname', 'email'],
+        attributes: ['id', 'nickname'],
       }],
       order: [['created_at', 'DESC']],
     })
